@@ -1,0 +1,7 @@
+.progress-row { }
+.bar { background: #e6e6e6; height: 16px; border-radius: 8px; overflow: hidden; }
+.fill { height: 100%; border-radius: 8px; transition: width 800ms ease; }
+.reason { font-size: 0.9rem; color: #555; }
+@media (max-width: 640px) {
+  .progress-row { padding: 8px; }
+}

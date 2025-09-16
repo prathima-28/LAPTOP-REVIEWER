@@ -1,0 +1,30 @@
+:root { --card-bg: #ffffff; --muted: #6b7280; }
+body { margin: 0; font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background: linear-gradient(180deg,#f8fafc,#ffffff); color: #0f172a; }
+.app-root { max-width: 960px; margin: 2rem auto; padding: 1rem; }
+.app-header { text-align: center; margin-bottom: 1rem; }
+.subtitle { color: var(--muted); }
+.card { background: var(--card-bg); border-radius: 12px; padding: 16px; box-shadow: 0 6px 20px rgba(2,6,23,0.06); margin-bottom: 1rem; }
+.form-card input, .form-card select { width: 100%; padding: 10px; margin-top: 6px; margin-bottom: 12px; border-radius: 8px; border: 1px solid #e5e7eb; }
+.form-card label { font-weight: 600; display:block; margin-top:8px;}
+.cta { background: linear-gradient(90deg,#4f46e5,#06b6d4); color: white; border: none; padding: 10px 16px; border-radius: 10px; cursor: pointer; font-weight: 700; }
+.hint-card { margin-top: 12px; padding: 12px; border-left: 4px solid #06b6d4; }
+.loading { text-align: center; padding: 12px; }
+.result-card .prod-title { font-size: 1.2rem; margin-bottom: 6px; }
+.result-card .meta { color: var(--muted); margin-bottom: 8px; }
+.result-card .prod-details { color: #374151; white-space: pre-wrap; }
+.back { background: transparent; border: none; color: #374151; cursor: pointer; margin-bottom: 8px; }
+.verdict-row { display: flex; gap: 20px; align-items: center; margin-top: 18px; }
+.verdict-circle { width: 120px; height: 120px; border-radius: 999px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:18px; color:white; }
+.verdict-circle.buy { background: #16a34a; }
+.verdict-circle.wait { background: #f59e0b; }
+.verdict-circle.no { background: #ef4444; }
+.verdict-text { flex: 1; }
+.comment { font-size: 1rem; margin: 0 0 8px 0; }
+.debug { font-size: 0.7rem; color: #6b7280; background: #f3f4f6; padding: 8px; border-radius: 6px; white-space: pre-wrap; }
+.footer { text-align:center; color: var(--muted); margin-top: 12px; }
+
+/* responsive */
+@media (max-width: 700px) {
+  .verdict-row { flex-direction: column; align-items: stretch; }
+  .verdict-circle { width: 100px; height: 100px; margin: auto; }
+}
