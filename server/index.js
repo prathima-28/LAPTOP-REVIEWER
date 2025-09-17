@@ -6,7 +6,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// API route
 app.use('/api/analyze', analyzeRoute);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

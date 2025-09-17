@@ -1,33 +1,39 @@
 const express = require('express');
 const router = express.Router();
 const scrapeAmazon = require('../services/scrapeAmazon');
-const { analyzeSpecs } = require('../services/analyzeLogic');
 
 router.post('/', async (req, res) => {
-  const { budget, purpose, url } = req.body || {};
-  if (!url) return res.status(400).json({ error: 'url required' });
+  const { url, budget, purpose } = req.body;
+
+  if (!url || !budget || !purpose) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
 
   try {
-    const specs = await scrapeAmazon(url);
+    // Scrape product data
+    const product = await scrapeAmazon(url);
 
-    if (!specs || !specs.title) {
-      return res.status(500).json({ error: 'Failed to scrape product' });
-    }
+    // General and purpose-specific analysis
+    const ram = product.specs.find(s => /RAM/i.test(s)) || '';
+    const storage = product.specs.find(s => /SSD|HDD/i.test(s)) || '';
 
-    const isLaptop = /laptop|notebook|macbook|chromebook|zenbook|spectre|thinkpad/i.test(
-      (specs.title || '') + ' ' + (specs.details || '')
-    );
+    let score = 50;
 
-    if (!isLaptop) {
-      return res.json({
-        isLaptop: false,
-        specs,
-        message: `🚨 Oops! That doesn't look like a laptop — it seems to be: "${specs.title}".\nAre you trying to review a ${specs.title} as a laptop? 😄 Please paste a laptop product link.`
-      });
-    }
+    if (/i5|ryzen5/i.test(product.specs.join(''))) score += 25;
+    if (/i7|ryzen7/i.test(product.specs.join(''))) score += 35;
 
-    const analysis = analyzeSpecs(specs, budget, purpose);
-    res.json({ isLaptop: true, specs, analysis });
+    if (/16GB/i.test(ram)) score += 20;
+    if (/512GB/i.test(storage)) score += 20;
+
+    // Generate final verdict
+    const verdict = score >= 75 ? 'Excellent 💯' : score >= 50 ? 'Good 👍' : 'Average ⚠️';
+
+    res.json({
+      productTitle: product.title,
+      specs: product.specs,
+      score,
+      verdict
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error', detail: err.message });
