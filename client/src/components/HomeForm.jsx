@@ -14,7 +14,8 @@ export default function HomeForm({ setResult, setLoading }) {
 
     try {
       setLoading(true);
-      const res = await axios.post('http://localhost:5000/api/analyze', { budget, purpose, url });
+      const res = await axios.post('https://laptop-reviewer-1028.onrender.com/api/analyze', { budget, purpose, url });
+
       setResult(res.data);
     } catch (err) {
       console.error(err);
